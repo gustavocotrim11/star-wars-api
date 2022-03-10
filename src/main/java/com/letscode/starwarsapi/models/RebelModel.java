@@ -17,11 +17,13 @@ public class RebelModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
-    private UUID id;
+
+    @Getter private UUID id;
     private final String name;
     private final Integer age;
-    private final GenderEnum gender;
+    private final String gender;
+    @Getter private Boolean traitor = false;
+    @Getter private Integer denunciations = 0;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
@@ -33,4 +35,14 @@ public class RebelModel implements Serializable {
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private InventoryModel inventory;
 
+    private void setTraitor() {
+        this.traitor = true;
+    }
+
+    public void SetDenunciations() {
+        this.denunciations++;
+        if (this.denunciations >= 3) {
+            setTraitor();
+        }
+    }
 }

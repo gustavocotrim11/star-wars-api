@@ -14,4 +14,14 @@ public enum GenderEnum {
     public String getGender() {
         return gender;
     }
+
+    public static GenderEnum fromString(String gender) {
+        for (GenderEnum value : GenderEnum.values()) {
+            if (value.gender.equalsIgnoreCase(gender)) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + gender + " found");
+    }
+
 }

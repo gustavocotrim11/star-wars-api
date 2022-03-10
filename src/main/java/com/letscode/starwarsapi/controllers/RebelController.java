@@ -51,7 +51,7 @@ public class RebelController {
         RebelModel rebelModel = new RebelModel(
                 rebelDto.getName(),
                 rebelDto.getAge(),
-                GenderEnum.valueOf(rebelDto.getGender().toUpperCase()),
+                GenderEnum.fromString(rebelDto.getGender()).getGender(),
                 localizationModel,
                 inventoryModel
         );
@@ -60,19 +60,26 @@ public class RebelController {
 
     @GetMapping
     public ResponseEntity<List<RebelModel>> findAll() {
-        List<RebelModel> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        List<RebelModel> rebelList = service.findAll();
+        return ResponseEntity.ok().body(rebelList);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<RebelModel> findById(@PathVariable UUID id) {
-        RebelModel obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
+        RebelModel rebel = service.findById(id);
+        return ResponseEntity.ok().body(rebel);
     }
 
     @PutMapping( value = "/{id}/localization")
     public ResponseEntity<?> updateLocalization(@RequestBody LocalizationModel newLocalization, @PathVariable UUID id){
         LocalizationModel updatedLocalization = localizationService.updateLocalization( id , newLocalization );
         return ResponseEntity.ok().body(updatedLocalization);
+    }
+
+    @PutMapping(value = "/report-traitor/{id}")
+    public ResponseEntity<RebelModel> reportTraitor(@PathVariable UUID id){
+        RebelModel rebelReported = service.findById(id);
+        rebelReported.SetDenunciations();
+        return ResponseEntity.ok().body(service.save(rebelReported));
     }
 }

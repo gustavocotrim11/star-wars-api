@@ -35,10 +35,10 @@ public class TestConfig implements CommandLineRunner {
         InventoryModel thirdInventory = new InventoryModel(3, 3, 3, 3);
         InventoryModel fourthInventory = new InventoryModel(4, 4, 4, 4);
 
-        RebelModel firstRebel = new RebelModel("Gustavo", 25, GenderEnum.MALE, firstLocalization, firstInventory);
-        RebelModel secondRebel = new RebelModel("Mayara", 25, GenderEnum.FEMALE, secondLocalization, secondInventory);
-        RebelModel thirdRebel = new RebelModel("Guilherme", 25, GenderEnum.MALE, thirdLocalization, thirdInventory);
-        RebelModel fourthRebel = new RebelModel("Geovanna", 25, GenderEnum.FEMALE, fourthLocalization, fourthInventory);
+        RebelModel firstRebel = new RebelModel("Gustavo", 25, GenderEnum.MALE.getGender(), firstLocalization, firstInventory);
+        RebelModel secondRebel = new RebelModel("Mayara", 25, GenderEnum.FEMALE.getGender(), secondLocalization, secondInventory);
+        RebelModel thirdRebel = new RebelModel("Guilherme", 25, GenderEnum.MALE.getGender(), thirdLocalization, thirdInventory);
+        RebelModel fourthRebel = new RebelModel("Geovanna", 25, GenderEnum.FEMALE.getGender(), fourthLocalization, fourthInventory);
 
         rebelRepository.saveAll(Arrays.asList(firstRebel, secondRebel, thirdRebel, fourthRebel));
     }
