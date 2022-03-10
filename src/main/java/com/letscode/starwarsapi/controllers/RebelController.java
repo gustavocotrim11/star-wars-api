@@ -42,7 +42,7 @@ public class RebelController {
 
     @PutMapping( value = "/{id}/localization")
     public ResponseEntity<?> updateLocalization(@RequestBody LocalizationModel newLocalization, @PathVariable UUID id){
-        Optional<LocalizationModel> updatedLocalization = localizationService.updateLocalization( id , newLocalization );
+        LocalizationModel updatedLocalization = localizationService.updateLocalization( id , newLocalization );
         return ResponseEntity.ok().body(updatedLocalization);
     }
 }

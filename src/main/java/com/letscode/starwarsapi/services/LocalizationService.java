@@ -1,10 +1,8 @@
 package com.letscode.starwarsapi.services;
 
-import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.exceptions.LocalizationNotFoundException;
 import com.letscode.starwarsapi.models.LocalizationModel;
 import com.letscode.starwarsapi.repositories.LocalizationRepository;
-import com.letscode.starwarsapi.repositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,15 +27,15 @@ public class LocalizationService {
         return obj.get();
     }
 
-    public Optional<LocalizationModel> updateLocalization(UUID id , LocalizationModel newLocalization ){
+    public LocalizationModel updateLocalization(UUID id , LocalizationModel newLocalization ){
         return repository.findById(id)
                 .map(localization -> {
                     localization.setBaseName(newLocalization.getBaseName());
                     localization.setLongitude(newLocalization.getLongitude());
                     localization.setLatitude(newLocalization.getLatitude());
                     return repository.save(localization);
-                });
-                //.orElseThrow(()->new LocalizationNotFoundException(id));
+                })
+                .orElseThrow(()->new LocalizationNotFoundException(id));
     }
 
 }
