@@ -4,6 +4,7 @@ import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.repositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,5 +25,10 @@ public class RebelService {
     public RebelModel findById(UUID id) {
         Optional<RebelModel> obj = repository.findById(id);
         return obj.get();
+    }
+
+    @Transactional
+    public RebelModel save(RebelModel rebelModel) {
+        return repository.save(rebelModel);
     }
 }

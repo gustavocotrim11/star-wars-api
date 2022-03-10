@@ -1,9 +1,7 @@
 package com.letscode.starwarsapi.models;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.letscode.starwarsapi.models.unums.GenderEnum;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,10 +16,12 @@ public class RebelModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private final UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    private UUID id;
     private final String name;
     private final Integer age;
-    private final String gender;
+    private final GenderEnum gender;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)

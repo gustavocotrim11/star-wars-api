@@ -2,15 +2,9 @@ package com.letscode.starwarsapi.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -22,8 +16,9 @@ import java.util.UUID;
 public class InventoryModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NonNull
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private UUID id;
     @JsonIgnore
     @OneToOne(mappedBy = "inventory")

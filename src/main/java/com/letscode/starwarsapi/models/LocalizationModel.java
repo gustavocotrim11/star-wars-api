@@ -2,15 +2,10 @@ package com.letscode.starwarsapi.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,8 +16,9 @@ import java.util.UUID;
 public class LocalizationModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NonNull
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private UUID id;
     @JsonIgnore
     @OneToOne(mappedBy = "localization")
