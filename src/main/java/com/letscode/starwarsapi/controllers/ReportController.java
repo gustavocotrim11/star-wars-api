@@ -1,7 +1,7 @@
 package com.letscode.starwarsapi.controllers;
 
-import com.letscode.starwarsapi.services.LocalizationService;
-import com.letscode.starwarsapi.services.RebelService;
+import com.letscode.starwarsapi.services.ReportService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,11 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/report")
 public class ReportController {
 
-    private final RebelService rebelService;
+    private final ReportService reportService;
 
-    public ReportController(RebelService rebelService) {
-        this.rebelService = rebelService;
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
     }
 
+    @GetMapping(value = "/traitorsPercentage")
+    public ResponseEntity<Long> traitorsPercentage(){
+        long percentage = reportService.traitorsPercentage();
+        return ResponseEntity.ok().body(percentage);
+    }
+
+    @GetMapping(value = "/rebelsPercentage")
+    public ResponseEntity<Long> rebelsPercentage(){
+        long percentage = reportService.rebelsPercentage();
+        return ResponseEntity.ok().body(percentage);
+    }
 
 }
