@@ -1,7 +1,6 @@
 package com.letscode.starwarsapi.services;
 
 import com.letscode.starwarsapi.models.InventoryModel;
-import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.repositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,54 +15,94 @@ public class ReportService {
         this.rebelRepository = rebelRepository;
     }
 
-    public void generateReport(){
-        List<InventoryModel> rebelsInventoryList = rebelRepository.findAllByTraitor(false).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
-
-        List<InventoryModel> traitorsInventoryList = rebelRepository.findAllByTraitor(true).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
-
+    public long traitorsPercentage(){
         long totalPeople = rebelRepository.count();
 
         long totalTraitors = rebelRepository.countByTraitor(true);
 
-        long totalRebels = totalPeople-totalTraitors;
-
         long traitorsPercentage = (totalTraitors/totalPeople)*100;
 
-        long rebelsPercentage = 100-traitorsPercentage;
+        return traitorsPercentage;
+    }
 
-        int totalWeapom = rebelsInventoryList.stream()
+    public long rebelsPercentage(){
+        return 100-traitorsPercentage();
+    }
+
+    public double[] rebelsInventoryMeans(){
+        List<InventoryModel> rebelsInventoryList = rebelRepository.findAllByTraitor(false).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
+
+        long totalRebels = rebelRepository.countByTraitor(false);
+
+        int rebelsTotalWeapons = rebelsInventoryList.stream()
                 .map(inv -> inv.getWeapon())
                 .collect(Collectors.toList())
                 .stream()
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        int totalAmmo = rebelsInventoryList.stream()
+        int rebelsTotalAmmo = rebelsInventoryList.stream()
                 .map(inv -> inv.getAmmo())
                 .collect(Collectors.toList())
                 .stream()
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        int totalWater = rebelsInventoryList.stream()
+        int rebelsTotalWater = rebelsInventoryList.stream()
                 .map(inv -> inv.getWater())
                 .collect(Collectors.toList())
                 .stream()
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        int totalFood = rebelsInventoryList.stream()
+        int rebelsTotalFood = rebelsInventoryList.stream()
                 .map(inv -> inv.getFood())
                 .collect(Collectors.toList())
                 .stream()
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        double[] rebelsInventoryMeans = {totalWeapom/totalRebels , totalAmmo/totalRebels , totalFood/totalRebels , totalWater/totalRebels};
+        //Requisito 3
+        double[] rebelsInventoryMeans = {rebelsTotalWeapons/totalRebels , rebelsTotalAmmo/totalRebels , rebelsTotalFood/totalRebels , rebelsTotalWater/totalRebels};
 
+        return rebelsInventoryMeans;
+    }
 
+    public int traitorsTotalPoints(){
+        List<InventoryModel> traitorsInventoryList = rebelRepository.findAllByTraitor(true).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
 
+        int traitorsTotalWeapons = traitorsInventoryList.stream()
+                .map(inv -> inv.getWeapon())
+                .collect(Collectors.toList())
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
 
+        int traitorsTotalAmmo = traitorsInventoryList.stream()
+                .map(inv -> inv.getAmmo())
+                .collect(Collectors.toList())
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        int traitorsTotalWater = traitorsInventoryList.stream()
+                .map(inv -> inv.getWater())
+                .collect(Collectors.toList())
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        int traitorsTotalFood = traitorsInventoryList.stream()
+                .map(inv -> inv.getFood())
+                .collect(Collectors.toList())
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        //Requisito 4
+        int traitorsPointsSum = 4*traitorsTotalWeapons + 3*traitorsTotalAmmo + 2*traitorsTotalWater + traitorsTotalFood;
+
+        return traitorsPointsSum;
     }
 
 }
