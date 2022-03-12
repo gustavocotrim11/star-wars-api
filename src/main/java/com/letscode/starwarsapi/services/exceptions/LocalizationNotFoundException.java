@@ -1,4 +1,4 @@
-package com.letscode.starwarsapi.exceptions;
+package com.letscode.starwarsapi.services.exceptions;
 
 import java.util.UUID;
 

@@ -8,6 +8,7 @@ import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.models.unums.GenderEnum;
 import com.letscode.starwarsapi.services.LocalizationService;
 import com.letscode.starwarsapi.services.RebelService;
+import com.letscode.starwarsapi.services.exceptions.RebelNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,5 +82,11 @@ public class RebelController {
         RebelModel rebelReported = service.findById(id);
         rebelReported.SetDenunciations();
         return ResponseEntity.ok().body(service.save(rebelReported));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteRebel(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

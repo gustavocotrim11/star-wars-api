@@ -2,6 +2,8 @@ package com.letscode.starwarsapi.services;
 
 import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.repositories.RebelRepository;
+import com.letscode.starwarsapi.services.exceptions.RebelNotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,12 +25,25 @@ public class RebelService {
     }
 
     public RebelModel findById(UUID id) {
-        Optional<RebelModel> obj = repository.findById(id);
-        return obj.get();
+        try {
+            Optional<RebelModel> obj = repository.findById(id);
+            return obj.orElseThrow(() -> new RebelNotFoundException(id));
+        } catch (IllegalArgumentException e) {
+            throw new RebelNotFoundException(id);
+        }
     }
 
     @Transactional
     public RebelModel save(RebelModel rebelModel) {
         return repository.save(rebelModel);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RebelNotFoundException(id);
+        }
     }
 }
