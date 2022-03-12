@@ -8,7 +8,8 @@ import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.models.unums.GenderEnum;
 import com.letscode.starwarsapi.services.LocalizationService;
 import com.letscode.starwarsapi.services.RebelService;
-import com.letscode.starwarsapi.services.exceptions.RebelNotFoundException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/rebels")
+@Api(value = "Rebels API REST")
 public class RebelController {
 
     private final RebelService service;
@@ -34,6 +35,7 @@ public class RebelController {
         this.localizationService = localizationService;
     }
 
+    @ApiOperation(value = "Create a new Rebel with initial location and inventory")
     @PostMapping
     public ResponseEntity<RebelModel> createRebel(@RequestBody RebelDto rebelDto) {
         LocalizationModel localizationModel = new LocalizationModel(
@@ -59,24 +61,28 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(rebelModel));
     }
 
+    @ApiOperation(value = "Get a list of all Rebels")
     @GetMapping
     public ResponseEntity<List<RebelModel>> findAll() {
         List<RebelModel> rebelList = service.findAll();
         return ResponseEntity.ok().body(rebelList);
     }
 
+    @ApiOperation(value = "Get a Rebel by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<RebelModel> findById(@PathVariable UUID id) {
         RebelModel rebel = service.findById(id);
         return ResponseEntity.ok().body(rebel);
     }
 
+    @ApiOperation(value = "Update a Rebel localization by id")
     @PutMapping( value = "/{id}/localization")
     public ResponseEntity<?> updateLocalization(@RequestBody LocalizationModel newLocalization, @PathVariable UUID id){
         LocalizationModel updatedLocalization = localizationService.updateLocalization( id , newLocalization );
         return ResponseEntity.ok().body(updatedLocalization);
     }
 
+    @ApiOperation(value = "Report a Rebel as a traitor by id")
     @PutMapping(value = "/report-traitor/{id}")
     public ResponseEntity<RebelModel> reportTraitor(@PathVariable UUID accusedId, @RequestBody UUID accuserId){
         if(!service.findById(accusedId).getTraitor()){
@@ -89,6 +95,7 @@ public class RebelController {
         }
     }
 
+    @ApiOperation(value = "Delete a Rebel by id")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteRebel(@PathVariable UUID id) {
         service.delete(id);

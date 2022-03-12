@@ -1,11 +1,9 @@
-package com.letscode.starwarsapi.configs;
+package com.letscode.starwarsapi.config;
 
 import com.letscode.starwarsapi.models.InventoryModel;
 import com.letscode.starwarsapi.models.LocalizationModel;
 import com.letscode.starwarsapi.models.RebelModel;
 import com.letscode.starwarsapi.models.unums.GenderEnum;
-import com.letscode.starwarsapi.repositories.InventoryRepository;
-import com.letscode.starwarsapi.repositories.LocalizationRepository;
 import com.letscode.starwarsapi.repositories.RebelRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
