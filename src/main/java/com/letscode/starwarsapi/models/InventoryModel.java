@@ -18,10 +18,12 @@ public class InventoryModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private UUID id;
+
     @JsonIgnore
     @OneToOne(mappedBy = "inventory")
+    @Setter(AccessLevel.NONE)
     private RebelModel rebel;
     @NonNull
     private Integer weapon;

@@ -18,12 +18,18 @@ public class RebelModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    @Getter private UUID id;
+    @Setter(AccessLevel.NONE)
+    private UUID id;
+
     private final String name;
     private final Integer age;
     private final String gender;
-    @Getter private Boolean traitor = false;
-    @Getter private Integer denunciations = 0;
+
+    @Setter(AccessLevel.NONE)
+    private Boolean traitor = false;
+
+    @Setter(AccessLevel.NONE)
+    private Integer denunciations = 0;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
