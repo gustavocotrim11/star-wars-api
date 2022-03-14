@@ -1,6 +1,7 @@
 package com.letscode.starwarsapi.controllers;
 
 
+import com.letscode.starwarsapi.dtos.LocalizationDto;
 import com.letscode.starwarsapi.dtos.RebelDto;
 import com.letscode.starwarsapi.models.InventoryModel;
 import com.letscode.starwarsapi.models.LocalizationModel;
@@ -58,6 +59,7 @@ public class RebelController {
                 localizationModel,
                 inventoryModel
         );
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(rebelModel));
     }
 
@@ -77,9 +79,16 @@ public class RebelController {
 
     @ApiOperation(value = "Update a Rebel localization by id")
     @PutMapping( value = "/{id}/localization")
-    public ResponseEntity<?> updateLocalization(@RequestBody LocalizationModel newLocalization, @PathVariable UUID id){
-        LocalizationModel updatedLocalization = localizationService.updateLocalization( id , newLocalization );
-        return ResponseEntity.ok().body(updatedLocalization);
+    public ResponseEntity<LocalizationModel> updateLocalization(@RequestBody LocalizationDto newLocalization, @PathVariable UUID id){
+        RebelModel rebel = service.findById(id);
+
+        LocalizationModel updatedLocalizationModel = rebel.getLocalization();
+        updatedLocalizationModel.setLatitude(newLocalization.getLatitude());
+        updatedLocalizationModel.setLongitude(newLocalization.getLongitude());
+        updatedLocalizationModel.setBaseName(newLocalization.getBaseName());
+
+        localizationService.updateLocalization(updatedLocalizationModel);
+        return ResponseEntity.ok().body(updatedLocalizationModel);
     }
 
     @ApiOperation(value = "Report a Rebel as a traitor by id")

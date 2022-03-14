@@ -1,5 +1,6 @@
 package com.letscode.starwarsapi.controllers;
 
+import com.letscode.starwarsapi.models.ResourcesMeans;
 import com.letscode.starwarsapi.services.ReportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,20 @@ public class ReportController {
     public ResponseEntity<Long> rebelsPercentage(){
         long percentage = reportService.rebelsPercentage();
         return ResponseEntity.ok().body(percentage);
+    }
+
+    @ApiOperation(value = "Get resources means of rebels")
+    @GetMapping(value = "/rebelsResourcesMeans")
+    public ResponseEntity<ResourcesMeans> rebelsResourcesMeans(){
+        ResourcesMeans rebelsResourcesMeans = reportService.rebelsResourcesMeans();
+        return ResponseEntity.ok().body(rebelsResourcesMeans);
+    }
+
+    @ApiOperation(value = "Get total of lost points")
+    @GetMapping(value = "/lostPoints")
+    public ResponseEntity<String> lostPoints(){
+        String lostPoints = String.format("Points lost: %d",reportService.traitorsTotalPoints());
+        return ResponseEntity.ok().body(lostPoints);
     }
 
 }
