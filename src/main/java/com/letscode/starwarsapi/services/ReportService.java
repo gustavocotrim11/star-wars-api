@@ -1,6 +1,7 @@
 package com.letscode.starwarsapi.services;
 
 import com.letscode.starwarsapi.models.InventoryModel;
+import com.letscode.starwarsapi.models.ResourcesMeans;
 import com.letscode.starwarsapi.repositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class ReportService {
         return 100-traitorsPercentage();
     }
 
-    public double[] rebelsResourcesMeans(){
+    public ResourcesMeans rebelsResourcesMeans(){
         List<InventoryModel> rebelsInventoryList = rebelRepository.findAllByTraitor(false).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
 
         long totalRebels = rebelRepository.countByTraitor(false);
@@ -62,10 +63,8 @@ public class ReportService {
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        //Requisito 3
-        double[] rebelsInventoryMeans = {rebelsTotalWeapons/totalRebels , rebelsTotalAmmo/totalRebels , rebelsTotalFood/totalRebels , rebelsTotalWater/totalRebels};
-
-        return rebelsInventoryMeans;
+        ResourcesMeans rebelsResourcesMeans = new ResourcesMeans(rebelsTotalWeapons/totalRebels, rebelsTotalAmmo/totalRebels ,rebelsTotalFood/totalRebels , rebelsTotalWater/totalRebels);
+        return rebelsResourcesMeans;
     }
 
     public int traitorsTotalPoints(){

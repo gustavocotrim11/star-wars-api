@@ -1,5 +1,6 @@
 package com.letscode.starwarsapi.controllers;
 
+import com.letscode.starwarsapi.models.ResourcesMeans;
 import com.letscode.starwarsapi.services.ReportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,10 +36,9 @@ public class ReportController {
 
     @ApiOperation(value = "Get resources means of rebels")
     @GetMapping(value = "/rebelsResourcesMeans")
-    public ResponseEntity<String> rebelsResourcesMeans(){
-        double[] meansArray = reportService.rebelsResourcesMeans();
-        String message = String.format("Means: %n Weapons/Rebel = %.2f, %n Ammo/Rebel = %.2f, %n Food/Rebel = %.2f, %n Water/Rebel = %.2f",meansArray[0],meansArray[1],meansArray[2],meansArray[3]);
-        return ResponseEntity.ok().body(message);
+    public ResponseEntity<ResourcesMeans> rebelsResourcesMeans(){
+        ResourcesMeans rebelsResourcesMeans = reportService.rebelsResourcesMeans();
+        return ResponseEntity.ok().body(rebelsResourcesMeans);
     }
 
     @ApiOperation(value = "Get total of lost points")
