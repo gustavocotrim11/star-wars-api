@@ -29,7 +29,7 @@ public class ReportService {
         return 100-traitorsPercentage();
     }
 
-    public double[] rebelsInventoryMeans(){
+    public double[] rebelsResourcesMeans(){
         List<InventoryModel> rebelsInventoryList = rebelRepository.findAllByTraitor(false).stream().map(rebel -> rebel.getInventory()).collect(Collectors.toList());
 
         long totalRebels = rebelRepository.countByTraitor(false);

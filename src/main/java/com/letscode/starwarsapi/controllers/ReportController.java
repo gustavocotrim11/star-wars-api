@@ -33,4 +33,19 @@ public class ReportController {
         return ResponseEntity.ok().body(percentage);
     }
 
+    @ApiOperation(value = "Get resources means of rebels")
+    @GetMapping(value = "/rebelsResourcesMeans")
+    public ResponseEntity<String> rebelsResourcesMeans(){
+        double[] meansArray = reportService.rebelsResourcesMeans();
+        String message = String.format("Means: %n Weapons/Rebel = %.2f, %n Ammo/Rebel = %.2f, %n Food/Rebel = %.2f, %n Water/Rebel = %.2f",meansArray[0],meansArray[1],meansArray[2],meansArray[3]);
+        return ResponseEntity.ok().body(message);
+    }
+
+    @ApiOperation(value = "Get total of lost points")
+    @GetMapping(value = "/lostPoints")
+    public ResponseEntity<String> lostPoints(){
+        String lostPoints = String.format("Points lost: %d",reportService.traitorsTotalPoints());
+        return ResponseEntity.ok().body(lostPoints);
+    }
+
 }
