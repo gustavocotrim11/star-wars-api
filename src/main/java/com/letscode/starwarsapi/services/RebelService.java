@@ -46,4 +46,5 @@ public class RebelService {
             throw new RebelNotFoundException(id);
         }
     }
+
 }
