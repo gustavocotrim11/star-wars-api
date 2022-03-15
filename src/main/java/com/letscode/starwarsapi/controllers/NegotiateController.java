@@ -27,7 +27,7 @@ public class NegotiateController {
     }
 
     @ApiOperation(value = "Negotiate items ")
-    @PostMapping
+    @PostMapping("/{donorId}/negotiateTo/{receiverId}")
     public ResponseEntity<?> negotiateItems(@PathVariable UUID donorId, @PathVariable UUID receiverId,
                                             @RequestBody NegotiateDTO negotiateDTO){
 
@@ -55,9 +55,11 @@ public class NegotiateController {
                 changeItems(rebel1, rebel2,negotiateDTO.getItemsToNegotiate1());
                 changeItems(rebel2, rebel1,negotiateDTO.getItemsToNegotiate2());
 
+                rebelService.save(rebel1);
+                rebelService.save(rebel2);
+
             }
-            rebelService.save(rebel1);
-            rebelService.save(rebel2);
+
             return new ResponseEntity<> ("Successful negotiation",HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<> (e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
