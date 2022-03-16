@@ -92,16 +92,12 @@ public class RebelController {
     }
 
     @ApiOperation(value = "Report a Rebel as a traitor by id")
-    @PutMapping(value = "/report-traitor/{id}")
-    public ResponseEntity<RebelModel> reportTraitor(@PathVariable UUID accusedId, @RequestBody UUID accuserId){
-        if(!service.findById(accusedId).getTraitor()){
-            RebelModel rebelReported = service.findById(accusedId);
-            rebelReported.SetDenunciations();
-            return ResponseEntity.ok().body(service.save(rebelReported));
-        }
-        else{
-            return ResponseEntity.badRequest().body(service.findById(accusedId));
-        }
+    @PutMapping(value = "/{accuserId}/report-traitor/{accusedId}")
+    public ResponseEntity<RebelModel> reportTraitor(@PathVariable UUID accuserId, @PathVariable UUID accusedId){
+        RebelModel AccuserRebel = service.findById(accuserId);
+        RebelModel AccusedRebel = service.findById(accusedId);
+        AccusedRebel.SetDenunciations();
+        return ResponseEntity.ok().body(service.save(AccusedRebel));
     }
 
     @ApiOperation(value = "Delete a Rebel by id")
