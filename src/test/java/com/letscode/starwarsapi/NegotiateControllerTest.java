@@ -33,7 +33,7 @@ public class NegotiateControllerTest {
     @Test
     public void shouldReturnSuccess_whenToNegotiateItems(){
 
-        when(this.inventoryService.).thenReturn();
+        //when(this.inventoryService.).thenReturn();
 
         RestAssuredMockMvc.given().accept(ContentType.JSON).when().post("/negotiate/{donorId}/negotiateTo/{receiverId" +
                 "}").then().statusCode(HttpStatus.OK.value());
