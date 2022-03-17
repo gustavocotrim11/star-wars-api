@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class RebelController {
 
     @ApiOperation(value = "Create a new Rebel with initial location and inventory")
     @PostMapping
-    public ResponseEntity<RebelModel> createRebel(@RequestBody RebelDto rebelDto) {
+    public ResponseEntity<RebelModel> createRebel(@RequestBody @Valid RebelDto rebelDto) {
         LocalizationModel localizationModel = new LocalizationModel(
                 rebelDto.getLocalization().getLatitude(),
                 rebelDto.getLocalization().getLongitude(),
@@ -79,7 +80,7 @@ public class RebelController {
 
     @ApiOperation(value = "Update a Rebel localization by id")
     @PutMapping( value = "/{id}/localization")
-    public ResponseEntity<LocalizationModel> updateLocalization(@RequestBody LocalizationDto newLocalization, @PathVariable UUID id){
+    public ResponseEntity<LocalizationModel> updateLocalization(@RequestBody @Valid LocalizationDto newLocalization, @PathVariable UUID id){
         RebelModel rebel = service.findById(id);
 
         LocalizationModel updatedLocalizationModel = rebel.getLocalization();
